@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<students>
+    <student>
+        <vorname>Sven</vorname>
+        <nachname>Meier</nachname>
+    </student>
+    <student>
+        <vorname>Jan</vorname>
+        <nachname>Soltermann</nachname>
+    </student>
+</students>
