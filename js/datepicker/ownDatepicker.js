@@ -4,5 +4,6 @@ $('.datepicker').datepicker({
     language: "de",
     daysOfWeekDisabled: "0,2,3,4,6",
     daysOfWeekHighlighted: "1,5",
-    calendarWeeks: true
+    calendarWeeks: true,
+    format: "yyyy/mm/dd"
 });

@@ -44,6 +44,7 @@
     <br>
     <?php $data = simplexml_load_file("data/students.xml"); ?>
 
+    <form action="absenzen.php" method="post">
     <table class="table">
         <thead>
         <tr>
@@ -57,53 +58,31 @@
             <th scope="row">1</th>
             <td><?php echo $data->student[0]->vorname ." ". $data->student[0]->nachname;?></td>
             <td>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radios1" id="radio1_1" checked>
-                    <label class="form-check-label" for="radio1_1">
-                        Anwesend
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radios1" id="radio1_2">
-                    <label class="form-check-label" for="radio1_2">
-                        Abwesend
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radios1" id="radio1_3">
-                    <label class="form-check-label" for="radio1_3">
-                        Verspätet
-                    </label>
+                <div class="form-group">
+                    <select class="form-control" id="stud1" name="select1">
+                        <option>Anwesend</option>
+                        <option>Abwesend</option>
+                        <option>Verspätet</option>
+                    </select>
                 </div>
             </td>
         </tr>
         <tr>
-            <th scope="row">1</th>
+            <th scope="row">2</th>
             <td><?php echo $data->student[1]->vorname ." ". $data->student[1]->nachname;?></td>
             <td>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radios2" id="radio2_1" checked>
-                    <label class="form-check-label" for="radio2_1">
-                        Anwesend
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radios2" id="radio2_2">
-                    <label class="form-check-label" for="radio2_2">
-                        Abwesend
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="radios2" id="radio2_3">
-                    <label class="form-check-label" for="radio2_3">
-                        Verspätet
-                    </label>
+                <div class="form-group">
+                    <select class="form-control" id="stud2" name="select2">
+                        <option>Anwesend</option>
+                        <option>Abwesend</option>
+                        <option>Verspätet</option>
+                    </select>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
-    <button type="submit" class="btn btn-success" style="float: right;" name="save">Speichern</button>
+    <input type="submit" class="btn btn-success" style="float: right;" name="save" value="Speichern">
 </main>
 
 <footer class="footer">
