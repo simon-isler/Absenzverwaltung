@@ -38,9 +38,6 @@ $db = new SQLite3("sq3.db");
 
 /* Tabelle mit Primärschlüssel erzeugen */
 $db->exec("CREATE TABLE IF NOT EXISTS TAbsenzen (id integer PRIMARY KEY AUTOINCREMENT, datum, vorname, nachname, status);");
-
-// Datensatz eintragen
-$sqlstr = "INSERT INTO TAbsenzen (id, datum, vorname, nachname, status) VALUES ";
 ?>
 <header>
     <!-- Fixed navbar -->
@@ -51,11 +48,11 @@ $sqlstr = "INSERT INTO TAbsenzen (id, datum, vorname, nachname, status) VALUES "
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Hinzufügen<span class="sr-only">(current)</span></a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="view.php">Ansehen</a>
+                    <a class="nav-link" href="index.php">Hinzufügen<span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="view.php">Ansehen<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
@@ -64,73 +61,34 @@ $sqlstr = "INSERT INTO TAbsenzen (id, datum, vorname, nachname, status) VALUES "
 
 <!-- Begin page content -->
 <main role="main" class="container">
-    <h2 class="mt-5">Absenz hinzufügen</h2>
-    <p class="lead">Datum:</p>
-
-    <form action="index.php" method="post">
-    <div class="input-append date">
-        <input type="text" class="datepicker" name="date"><span class="add-on"><i class="icon-th"></i></span>
-    </div>
-    <br>
-    <table class="table">
+    <h2 class="mt-5">Anwesenheit ansehen</h2>
+    <table class="table table-sm table-hover table-striped">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Anwesenheit</th>
+            <th scope="col">Datum</th>
+            <th scope="col">Vorname</th>
+            <th scope="col">Nachname</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td><?php echo $data->student[0]->vorname ." ". $data->student[0]->nachname;?></td>
-            <td>
-                <div class="form-group">
-                    <select class="form-control" id="stud1" name="select1">
-                        <option>Anwesend</option>
-                        <option>Abwesend</option>
-                        <option>Verspätet</option>
-                    </select>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td><?php echo $data->student[1]->vorname ." ". $data->student[1]->nachname;?></td>
-            <td>
-                <div class="form-group">
-                    <select class="form-control" id="stud2" name="select2">
-                        <option>Anwesend</option>
-                        <option>Abwesend</option>
-                        <option>Verspätet</option>
-                    </select>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-        <br>
-    <input type="submit" class="btn btn-success" style="float: right;" name="save" value="Speichern">
-    </form>
+
         <?php
-        if (isset($_POST['save'])) {
-            // Input
-            $datum = $_POST['date'];
-            $vorname1 = $data->student[0]->vorname;
-            $vorname2 = $data->student[1]->vorname;
-            $nachname1 = $data->student[0]->nachname;
-            $nachname2 = $data->student[1]->nachname;
-            $status1 = $_POST['select1'];
-            $status2 = $_POST['select2'];
+        $res = $db->query("SELECT * FROM TAbsenzen");
 
-            // Ausführung
-            $db->query($sqlstr . "(null, '$datum', '$vorname1', '$nachname1', '$status1')");
-            $db->query($sqlstr . "(null, '$datum', '$vorname2', '$nachname2', '$status2')");
-
-            // Ausgabe
-            echo "<p class=\lead\ style='float: right; margin-right: 5%;'>Absenz wurde hinzugefügt!</p>";
+        /* Abfrageergebnis ausgeben */
+        while ($dsatz = $res->fetchArray(SQLITE3_ASSOC)) {
+            echo "<tr>
+            <td scope=\"row\">".$dsatz["datum"]."</td>
+            <td>".$dsatz["vorname"]."</td>
+            <td>".$dsatz["nachname"]."</td>
+            <td>".$dsatz["status"]."</td>
+        </tr>";
         }
         ?>
+        </tbody>
+    </table>
 </main>
 
 <footer class="footer">
