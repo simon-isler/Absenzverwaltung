@@ -34,7 +34,7 @@ error_reporting(0);
 $data = simplexml_load_file("data/students.xml");
 
 //Datenbankdatei erzeugen
-$db = new SQLite3("sq3.db");
+$db = new SQLite3("data/sq3.db");
 
 /* Tabelle mit Primärschlüssel erzeugen */
 $db->exec("CREATE TABLE IF NOT EXISTS TAbsenzen (id integer PRIMARY KEY AUTOINCREMENT, datum, vorname, nachname, status);");
@@ -149,7 +149,6 @@ $sqlstr = "INSERT INTO TAbsenzen (id, datum, vorname, nachname, status) VALUES "
 <script src="js/datepicker/ownDatepicker.js"></script>
 </body>
 </html>
-
 <?php
 /* Verbindung zur Datenbankdatei wieder lösen */
 $db->close();

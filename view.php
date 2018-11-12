@@ -34,10 +34,10 @@ error_reporting(0);
 $data = simplexml_load_file("data/students.xml");
 
 //Datenbankdatei erzeugen
-$db = new SQLite3("sq3.db");
+$db = new SQLite3("data/sq3.db");
 
 /* Tabelle mit Primärschlüssel erzeugen */
-$db->exec("CREATE TABLE IF NOT EXISTS TAbsenzen (id integer PRIMARY KEY AUTOINCREMENT, datum, vorname, nachname, status);");
+$db->exec("CREATE TABLE IF NOT EXISTS TAbsenzen (id integer PRIMARY KEY AUTOINCREMENT = 1, datum, vorname, nachname, status);");
 
 // Löschen
 $sqldel = "DELETE FROM TAbsenzen WHERE id = ";
@@ -68,29 +68,28 @@ $sqldel = "DELETE FROM TAbsenzen WHERE id = ";
     <table class="table table-sm table-hover table-striped">
         <thead>
         <tr>
-            <th scope="col">Nr.</th>
             <th scope="col">Datum</th>
             <th scope="col">Vorname</th>
             <th scope="col">Nachname</th>
             <th scope="col">Status</th>
-            <th scope="col"></th>
+            <th scope="col">Löschen?</th>
         </tr>
         </thead>
         <tbody>
-
         <?php
         // Globale Variable
         $id = "";
 
-        // SQL-Query u
+        // SQL-Query um Datensatz zu löschen
         $res = $db->query("SELECT * FROM TAbsenzen");
 
         /* Abfrageergebnis ausgeben */
         while ($dsatz = $res->fetchArray(SQLITE3_ASSOC)) {
+            // ID speichern
             $id = $dsatz['id'];
 
+            // Tabelle
             echo "<tr>
-            <td scope=\"row\">".$dsatz["id"]."</td>
             <td >".$dsatz["datum"]."</td>
             <td>".$dsatz["vorname"]."</td>
             <td>".$dsatz["nachname"]."</td>
@@ -103,9 +102,10 @@ $sqldel = "DELETE FROM TAbsenzen WHERE id = ";
 
         // Löschen
         if (isset($_POST['del'])) {
+            // Datensatz löschen
             $db->query($sqldel . $id);
 
-            // refresh page
+            // Seite neuladen
             $page = $_SERVER['PHP_SELF'];
             $sec = "0";
             header("Refresh: $sec; url=$page");
@@ -131,7 +131,6 @@ $sqldel = "DELETE FROM TAbsenzen WHERE id = ";
 <script src="js/datepicker/ownDatepicker.js"></script>
 </body>
 </html>
-
 <?php
 /* Verbindung zur Datenbankdatei wieder lösen */
 $db->close();
