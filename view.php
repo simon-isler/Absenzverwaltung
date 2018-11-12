@@ -38,6 +38,9 @@ $db = new SQLite3("sq3.db");
 
 /* Tabelle mit Primärschlüssel erzeugen */
 $db->exec("CREATE TABLE IF NOT EXISTS TAbsenzen (id integer PRIMARY KEY AUTOINCREMENT, datum, vorname, nachname, status);");
+
+// Löschen
+$sqldel = "DELETE FROM TAbsenzen WHERE id = ";
 ?>
 <header>
     <!-- Fixed navbar -->
@@ -65,6 +68,7 @@ $db->exec("CREATE TABLE IF NOT EXISTS TAbsenzen (id integer PRIMARY KEY AUTOINCR
     <table class="table table-sm table-hover table-striped">
         <thead>
         <tr>
+            <th scope="col">Nr.</th>
             <th scope="col">Datum</th>
             <th scope="col">Vorname</th>
             <th scope="col">Nachname</th>
@@ -75,16 +79,36 @@ $db->exec("CREATE TABLE IF NOT EXISTS TAbsenzen (id integer PRIMARY KEY AUTOINCR
         <tbody>
 
         <?php
+        // Globale Variable
+        $id = "";
+
+        // SQL-Query u
         $res = $db->query("SELECT * FROM TAbsenzen");
 
         /* Abfrageergebnis ausgeben */
         while ($dsatz = $res->fetchArray(SQLITE3_ASSOC)) {
+            $id = $dsatz['id'];
+
             echo "<tr>
-            <td scope=\"row\">".$dsatz["datum"]."</td>
+            <td scope=\"row\">".$dsatz["id"]."</td>
+            <td >".$dsatz["datum"]."</td>
             <td>".$dsatz["vorname"]."</td>
             <td>".$dsatz["nachname"]."</td>
             <td>".$dsatz["status"]."</td>
+            <td><form action=\"view.php\" method=\"post\">
+                    <input type=\"submit\" class=\"btn btn-danger btn-sm\" name='del' value='Löschen'>
+            </form></td>
         </tr>";
+        }
+
+        // Löschen
+        if (isset($_POST['del'])) {
+            $db->query($sqldel . $id);
+
+            // refresh page
+            $page = $_SERVER['PHP_SELF'];
+            $sec = "0";
+            header("Refresh: $sec; url=$page");
         }
         ?>
         </tbody>
